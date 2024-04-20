@@ -1,55 +1,59 @@
 import React, { useState, useEffect } from 'react';
+import './UpdateEntryForm.css'; // Import the UpdateEntryForm CSS
 
-function UpdateEntryForm({ rowData, onCancel, onUpdate }) {
-  const [name, setName] = useState(rowData.name);
-  const [email, setEmail] = useState(rowData.email);
-  const [phone, setPhone] = useState(rowData.phone);
-  const [city, setCity] = useState(rowData.city);
+function UpdateEntryForm({ selectedRow, onUpdate, onCancel }) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [city, setCity] = useState('');
 
-  // Update form fields when rowData changes (selected row changes)
   useEffect(() => {
-    setName(rowData.name);
-    setEmail(rowData.email);
-    setPhone(rowData.phone);
-    setCity(rowData.city);
-  }, [rowData]);
+    if (selectedRow) {
+      setName(selectedRow.name);
+      setEmail(selectedRow.email);
+      setPhone(selectedRow.phone);
+      setCity(selectedRow.city);
+    }
+  }, [selectedRow]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const updatedEntry = { id: rowData.id, name, email, phone, city };
+
+    const updatedEntry = {
+      id: selectedRow.id,
+      name,
+      email,
+      phone,
+      city,
+    };
+
     onUpdate(updatedEntry);
   };
 
-  const handleCancel = () => {
-    onCancel();
-  };
-
   return (
-    <div>
+    <div className="form-container update-form">
       <h3>Update Entry</h3>
       <form onSubmit={handleSubmit}>
-        <label>
-          Name:
+        <div className="form-group">
+          <label>Name:</label>
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-        </label>
-        <br />
-        <label>
-          Email:
+        </div>
+        <div className="form-group">
+          <label>Email:</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        </label>
-        <br />
-        <label>
-          Phone Number:
+        </div>
+        <div className="form-group">
+          <label>Phone Number:</label>
           <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
-        </label>
-        <br />
-        <label>
-          City:
+        </div>
+        <div className="form-group">
+          <label>City:</label>
           <input type="text" value={city} onChange={(e) => setCity(e.target.value)} required />
-        </label>
-        <br />
-        <button type="submit">Update</button>
-        <button type="button" onClick={handleCancel}>Cancel</button>
+        </div>
+        <div className="button-group">
+          <button type="submit" className="button">Update</button>
+          <button type="button" className="button cancel-button" onClick={onCancel}>Cancel</button>
+        </div>
       </form>
     </div>
   );

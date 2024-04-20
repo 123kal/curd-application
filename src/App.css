@@ -1,38 +1,117 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #202124; /* Dark background */
+  color: #ffffff; /* White text */
+  margin: 0;
+  padding: 20px;
+}
+
+h1, h3, h4 {
+  color: #ffffff; /* White text */
+}
+
 .App {
-  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.button {
+  background-color: #4caf50; /* Green */
+  color: #ffffff; /* White text */
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-right: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.button:hover {
+  background-color: #45a049; /* Darker green on hover */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.form-group {
+  margin-bottom: 15px;
 }
 
-.App-link {
-  color: #61dafb;
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #555555; /* Dark grey border */
+  background-color: #333333; /* Dark input background */
+  color: #ffffff; /* White text */
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus {
+  outline: none;
+  border-color: #4caf50; /* Green border on focus */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th,
+.table td {
+  border: 1px solid #555555; /* Dark grey border */
+  padding: 10px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #333333; /* Dark header background */
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #282a2d; /* Darker row background */
+}
+
+.table tbody tr:hover {
+  background-color: #404040; /* Darker row background on hover */
+}
+
+.update-form {
+  background-color: #333333; /* Dark form background */
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.update-form label {
+  color: #ffffff; /* White text */
+  display: block;
+  margin-bottom: 10px;
+}
+
+.update-form input[type="text"],
+.update-form input[type="email"],
+.update-form input[type="tel"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #555555; /* Dark grey border */
+  background-color: #282a2d; /* Darker input background */
+  color: #ffffff; /* White text */
+}
+
+.update-form input[type="text"]:focus,
+.update-form input[type="email"]:focus,
+.update-form input[type="tel"]:focus {
+  outline: none;
+  border-color: #4caf50; /* Green border on focus */
+}
+
+.selected-row {
+  background-color: #333333; /* Darker selected row background */
 }

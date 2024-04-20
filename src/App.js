@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import './App.css'; // Import the main CSS file
 import { useTable, useRowSelect } from 'react-table';
 import {
   collection,
@@ -7,18 +7,18 @@ import {
   getDocs,
   doc,
   writeBatch,
-  updateDoc, // Import updateDoc from Firestore
+  updateDoc,
 } from 'firebase/firestore';
 
 import NewEntryForm from './NewEntryForm';
-import UpdateEntryForm from './UpdateEntryForm'; // Import UpdateEntryForm
+import UpdateEntryForm from './UpdateEntryForm';
 import { db } from './firebase';
 
 function App() {
   const [data, setData] = useState([]);
   const [showNewEntryForm, setShowNewEntryForm] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null); // Selected row for update
-  const [isUpdating, setIsUpdating] = useState(false); // Flag for update mode
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,7 +90,6 @@ function App() {
   
     const batch = writeBatch(db);
   
-    // Add delete operations to the batch
     idsToDelete.forEach((id) => {
       const docRef = doc(db, 'employees', id);
       batch.delete(docRef);
@@ -100,9 +99,8 @@ function App() {
       await batch.commit();
       console.log('Documents deleted successfully:', idsToDelete);
   
-      // Update UI after deleting from Firestore
       const updatedData = data.filter((d) => !idsToDelete.includes(d.id));
-      setData(updatedData); // Update the state after deletion
+      setData(updatedData);
     } catch (error) {
       console.error('Error deleting documents:', error);
     }
@@ -110,14 +108,12 @@ function App() {
 
   const addRow = async (newRow) => {
     try {
-      // Check if entry already exists in data
       const exists = data.some(entry => entry.email === newRow.email);
       if (exists) {
         console.log('Entry already exists:', newRow.email);
         return;
       }
   
-      // Add the new entry to Firestore
       const docRef = await addDoc(collection(db, 'employees'), newRow);
       const newEmployee = { id: docRef.id, ...newRow };
       setData([...data, newEmployee]);
@@ -128,7 +124,7 @@ function App() {
 
   const handleUpdate = async (updatedEntry) => {
     try {
-      setIsUpdating(false); // Reset update mode
+      setIsUpdating(false);
       await updateDoc(doc(db, 'employees', updatedEntry.id), updatedEntry);
       const updatedData = data.map((row) =>
         row.id === updatedEntry.id ? updatedEntry : row
@@ -154,26 +150,30 @@ function App() {
     <div className="App">
       <h1 align="center">React-App</h1>
       <h4 align='center'>React-Table with CRUD operation using Firestore</h4>
-      <div>
-        <button onClick={deleteRows}>Delete Selected Rows</button>
-        <button onClick={() => setShowNewEntryForm(true)}>Add New Row</button>
+      <div className="button-group">
+        <button className="button" onClick={deleteRows}>Delete Selected Rows</button>
+        <button className="button" onClick={() => setShowNewEntryForm(true)}>Add New Row</button>
       </div>
       {showNewEntryForm && (
-        <NewEntryForm
-          onAdd={(newEntry) => {
-            addRow(newEntry);
-            setShowNewEntryForm(false);
-          }}
-        />
+        <div className="form-overlay">
+          <NewEntryForm
+            onAdd={(newEntry) => {
+              addRow(newEntry);
+              setShowNewEntryForm(false);
+            }}
+          />
+        </div>
       )}
       {isUpdating && selectedRow && (
-        <UpdateEntryForm
-          rowData={selectedRow.original}
-          onUpdate={handleUpdate}
-          onCancel={handleCancelUpdate}
-        />
+        <div className="form-overlay">
+          <UpdateEntryForm
+            onUpdate={handleUpdate}
+            onCancel={handleCancelUpdate}
+            selectedRow={selectedRow.original}
+          />
+        </div>
       )}
-      <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
+      <table {...getTableProps()} className="table">
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
@@ -189,14 +189,12 @@ function App() {
             return (
               <tr
                 {...row.getRowProps()}
+                className={row.id === (selectedRow && selectedRow.original.id) ? 'selected-row' : ''}
                 onDoubleClick={() => handleRowDoubleClick(row)}
-                style={{ background: row.isSelected ? 'lightblue' : 'white' }}
               >
-                {row.cells.map((cell) => {
-                  return (
-                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                  );
-                })}
+                {row.cells.map((cell) => (
+                  <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                ))}
               </tr>
             );
           })}

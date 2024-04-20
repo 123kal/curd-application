@@ -2,17 +2,15 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore"; // Import Firestore
-
 const firebaseConfig = {
-  apiKey: "-",
-  authDomain: "-",
-  projectId: "-",
-  storageBucket: "-",
-  messagingSenderId: "-",
-  appId: "-",
-  measurementId: "-"
-};
-
+    apiKey: "-",
+    authDomain: "-",
+    projectId: "-",
+    storageBucket: "-",
+    messagingSenderId: "-",
+    appId: "-",
+    measurementId: "-"
+  };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 console.log("Firebase app initialized successfully!"); // Added console log

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './NewEntryForm.css'; // Import the NewEntryForm CSS
 
 function NewEntryForm({ onAdd }) {
   const [name, setName] = useState('');
@@ -6,18 +7,17 @@ function NewEntryForm({ onAdd }) {
   const [phone, setPhone] = useState('');
   const [city, setCity] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Simple form validation
     if (!name || !email || !phone || !city) {
       alert('All fields are required!');
       return;
     }
 
     const newEntry = { name, email, phone, city };
-    onAdd(newEntry); // Pass new entry back to parent component
-    // Clear form fields after submission
+    onAdd(newEntry);
+
     setName('');
     setEmail('');
     setPhone('');
@@ -25,30 +25,26 @@ function NewEntryForm({ onAdd }) {
   };
 
   return (
-    <div>
+    <div className="form-container new-entry-form">
       <h3>Add New Entry</h3>
       <form onSubmit={handleSubmit}>
-        <label>
-          Name:
+        <div className="form-group">
+          <label>Name:</label>
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-        </label>
-        <br />
-        <label>
-          Email:
+        </div>
+        <div className="form-group">
+          <label>Email:</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        </label>
-        <br />
-        <label>
-          Phone Number:
+        </div>
+        <div className="form-group">
+          <label>Phone Number:</label>
           <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
-        </label>
-        <br />
-        <label>
-          City:
+        </div>
+        <div className="form-group">
+          <label>City:</label>
           <input type="text" value={city} onChange={(e) => setCity(e.target.value)} required />
-        </label>
-        <br />
-        <button type="submit">Submit</button>
+        </div>
+        <button type="submit" className="button">Submit</button>
       </form>
     </div>
   );
